@@ -10,8 +10,8 @@
   "content_scripts": [
     {
       "matches": ["*://www.hltv.org/matches/*"],
-      "js": ["./dist/script.js"],
-      "css": ["./src/style.css"]
+      "js": ["dist/main.js"],
+      "css": ["dist/style.css"]
     }
   ]
 }

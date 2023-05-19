@@ -1,9 +1,4 @@
-(function () {
-  if (window.hasRunHltvToCalendar) return;
-
-  window.hasRunHltvToCalendar = true;
-
-  // Put HTML into DOM
+export default function() {
   const container = document.createElement('div');
   container.classList.add('htoc-container');
 
@@ -17,12 +12,9 @@
 
   insertAfter(container, targetPosition);
 
+  return button;
+
   function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
   }
-
-  // Add event listener to button and trigger action
-  button.addEventListener('click', () => {
-    alert('lets g2o');
-  });
-})();
+}
