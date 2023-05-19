@@ -11,7 +11,6 @@ import handleDownload from './modules/handle-download';
 
   // Add event listener to button and trigger download
   button.addEventListener('click', () => {
-    console.log(333);
     handleDownload();
   });
 })();
