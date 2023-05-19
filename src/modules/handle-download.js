@@ -35,18 +35,16 @@ export default async function handleDownload() {
     alarms: [{ action: 'display', description: 'Reminder', trigger: { hours: 0, minutes: 15, before: true } }],
   };
 
-  console.log(event);
-
   const filename =
+    date.getFullYear() +
+    '-' +
+    (date.getMonth() + 1) +
+    '-' +
+    date.getDate() +
+    '-' +
     team1.textContent.toLocaleLowerCase().trim().replace(/\s/g, '_') +
     '-vs-' +
     team2.textContent.toLocaleLowerCase().trim().replace(/\s/g, '_') +
-    '-' +
-    date.getFullYear() +
-    '_' +
-    (date.getMonth() + 1) +
-    '_' +
-    date.getDate() +
     '.ics';
 
   const file = await new Promise((resolve, reject) => {

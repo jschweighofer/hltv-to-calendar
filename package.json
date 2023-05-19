@@ -1,7 +1,6 @@
 {
   "name": "hltv-to-calendar",
   "version": "1.0.0",
-  "description": "",
   "app": "dist/main.js",
   "css": "dist/style.css",
   "targets": {
@@ -17,7 +16,7 @@
     "build": "parcel build --no-source-maps"
   },
   "browserslist": "> 5%",
-  "author": "",
+  "author": "Jakob Schweighofer",
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",
