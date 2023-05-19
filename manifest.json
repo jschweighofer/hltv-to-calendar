@@ -4,13 +4,14 @@
   "version": "0.1",
   "description": "Adds a button to the top of a single event page which allows a .ics file download.",
   "icons": {
-    "48": "icons/border-48.png",
-    "96": "icons/border-96.png"
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
   },
   "content_scripts": [
     {
       "matches": ["*://www.hltv.org/matches/*"],
-      "js": ["hltv-to-calendar.js"]
+      "js": ["./dist/script.js"],
+      "css": ["./src/style.css"]
     }
   ]
 }

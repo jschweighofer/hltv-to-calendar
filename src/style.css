@@ -1,0 +1,18 @@
+.htoc-container {
+  margin-top: 5px;
+  text-align: right;
+}
+
+.htoc-button {
+  background-color: #2d6da3;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 3px 10px;
+}
+
+.htoc-button:hover {
+  background-color: #1f5582;
+  color: #fff !important;
+}
