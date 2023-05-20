@@ -16,23 +16,27 @@ export default async function handleDownload() {
   const description = document.querySelector('.maps .veto-box');
   if (!description) alertThrowError('Cannot get description element.');
 
-  const title = document.querySelector("meta[property='og:title']");
-  if (!title) alertThrowError('Cannot get title meta tag');
-
   const team1 = document.querySelector('.team1 .teamName');
-  if (!team1) alertThrowError('Cannot get team 1 name element.');
+  let team1Name = 'undef';
+  if (team1) {
+    team1Name = team1.textContent;
+  }
 
   const team2 = document.querySelector('.team2 .teamName');
-  if (!team2) alertThrowError('Cannot get team 2 name element.');
+  let team2Name = 'undef';
+  if (team2) {
+    team1Name = team1.textContent;
+  }
 
   const event = {
     uid: nanoid() + '@hltv-to-calendar',
     start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes()],
     duration: { hours: 2, minutes: 0 },
-    title: title.getAttribute('content'),
+    title: document.title.replace(' | HLTV.org', ''),
     description: description.textContent.trim(),
     url: location.href,
     alarms: [{ action: 'display', description: 'Reminder', trigger: { hours: 0, minutes: 15, before: true } }],
+    productId: 'hltv-to-calendar'
   };
 
   const filename =
@@ -42,9 +46,9 @@ export default async function handleDownload() {
     '-' +
     date.getDate() +
     '-' +
-    team1.textContent.toLocaleLowerCase().trim().replace(/\s/g, '_') +
+    team1Name.toLocaleLowerCase().trim().replace(/\s/g, '_') +
     '-vs-' +
-    team2.textContent.toLocaleLowerCase().trim().replace(/\s/g, '_') +
+    team2Name.toLocaleLowerCase().trim().replace(/\s/g, '_') +
     '.ics';
 
   const file = await new Promise((resolve, reject) => {
