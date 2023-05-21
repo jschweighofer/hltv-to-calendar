@@ -28,28 +28,8 @@ export default async function handleDownload() {
     team1Name = team1.textContent;
   }
 
-  const event = {
-    uid: nanoid() + '@hltv-to-calendar',
-    start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes()],
-    duration: { hours: 2, minutes: 0 },
-    title: document.title.replace(' | HLTV.org', ''),
-    description: description.textContent.trim(),
-    url: location.href,
-    alarms: [{ action: 'display', description: 'Reminder', trigger: { hours: 0, minutes: 15, before: true } }],
-    productId: 'hltv-to-calendar'
-  };
-
-  const filename =
-    date.getFullYear() +
-    '-' +
-    (date.getMonth() + 1) +
-    '-' +
-    date.getDate() +
-    '-' +
-    team1Name.toLocaleLowerCase().trim().replace(/\s/g, '_') +
-    '-vs-' +
-    team2Name.toLocaleLowerCase().trim().replace(/\s/g, '_') +
-    '.ics';
+  const event = eventFactory();
+  const filename = fileNameFactory({ date, team1: team1Name, team2: team2Name });
 
   const file = await new Promise((resolve, reject) => {
     createEvent(event, (error, value) => {
@@ -73,4 +53,32 @@ export default async function handleDownload() {
   document.body.removeChild(anchor);
 
   URL.revokeObjectURL(url);
+}
+
+function eventFactory() {
+  return {
+    uid: nanoid() + '@hltv-to-calendar',
+    start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes()],
+    duration: { hours: 2, minutes: 0 },
+    title: document.title.replace(' | HLTV.org', ''),
+    description: description.textContent.trim(),
+    url: location.href,
+    alarms: [{ action: 'display', description: 'Reminder', trigger: { hours: 0, minutes: 15, before: true } }],
+    productId: 'hltv-to-calendar',
+  };
+}
+
+function fileNameFactory(data) {
+  return (
+    data.date.getFullYear() +
+    '-' +
+    (data.date.getMonth() + 1) +
+    '-' +
+    data.date.getDate() +
+    '-' +
+    data.team1.toLocaleLowerCase().trim().replace(/\s/g, '_') +
+    '-vs-' +
+    data.team2.toLocaleLowerCase().trim().replace(/\s/g, '_') +
+    '.ics'
+  );
 }

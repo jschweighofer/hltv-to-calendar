@@ -1,7 +1,7 @@
 import htmlDom from './modules/html-dom';
 import handleDownload from './modules/handle-download';
 
-(() => {
+(function() {
   if (window.hasRunHltvToCalendar) return;
 
   window.hasRunHltvToCalendar = true;
