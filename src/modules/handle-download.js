@@ -29,7 +29,7 @@ export default async function handleDownload() {
     team2Name = team2.textContent;
   }
   const fileName = createFileName({ date, team1: team1Name, team2: team2Name });
-  const file = createIcsFile({ fileName, date, description, team1Name, team2Name})
+  const file = createIcsFile({ fileName, date, description })
 
   const url = URL.createObjectURL(file);
 

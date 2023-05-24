@@ -1,5 +1,13 @@
 import { nanoid } from '../../node_modules/nanoid/nanoid';
 
+/**
+ * Creates a text file with file ending .ics
+ * @param {Object} data
+ * @param {string} data.fileName
+ * @param {Date} data.date
+ * @param {string} data.description
+ * @return {File} .ics File
+ */
 export default function createIcsFile(data) {
   const fileContent = `BEGIN:VCALENDAR
 VERSION:2.0
