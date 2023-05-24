@@ -12,8 +12,8 @@
     }
   },
   "scripts": {
-    "watch": "parcel watch --no-source-maps",
-    "build": "parcel build --no-source-maps"
+    "serve": "parcel watch --no-source-maps",
+    "build": "parcel build --no-source-maps --no-optimize"
   },
   "browserslist": "> 5%",
   "author": "Jakob Schweighofer",
@@ -23,7 +23,6 @@
     "parcel": "^2.8.3"
   },
   "dependencies": {
-    "ics": "^3.1.0",
     "nanoid": "^4.0.2"
   }
 }

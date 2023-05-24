@@ -1,6 +1,5 @@
 import { alertThrowError } from './helper';
-import { createEvent } from '../../node_modules/ics/dist/index';
-import { nanoid } from '../../node_modules/nanoid/nanoid';
+import createIcsFile from './create-ics-file';
 
 export default async function handleDownload() {
   // Get appointment details
@@ -12,6 +11,8 @@ export default async function handleDownload() {
 
   const date = new Date(+time.getAttribute('data-unix'));
   if (!date) alertThrowError('Cannot extract time.');
+
+  console.log(date.toISOString());
 
   const description = document.querySelector('.maps .veto-box');
   if (!description) alertThrowError('Cannot get description element.');
@@ -25,28 +26,18 @@ export default async function handleDownload() {
   const team2 = document.querySelector('.team2 .teamName');
   let team2Name = 'undef';
   if (team2) {
-    team1Name = team1.textContent;
+    team2Name = team2.textContent;
   }
+  const fileName = createFileName({ date, team1: team1Name, team2: team2Name });
+  const file = createIcsFile({ fileName, date, description, team1Name, team2Name})
 
-  const event = eventFactory();
-  const filename = fileNameFactory({ date, team1: team1Name, team2: team2Name });
-
-  const file = await new Promise((resolve, reject) => {
-    createEvent(event, (error, value) => {
-      if (error) {
-        reject(error);
-      }
-
-      resolve(new File([value], filename, { type: 'plain/text' }));
-    });
-  });
   const url = URL.createObjectURL(file);
 
   // trying to assign the file URL to a window could cause cross-site
   // issues so this is a workaround using HTML5
   const anchor = document.createElement('a');
   anchor.href = url;
-  anchor.download = filename;
+  anchor.download = fileName;
 
   document.body.appendChild(anchor);
   anchor.click();
@@ -55,26 +46,13 @@ export default async function handleDownload() {
   URL.revokeObjectURL(url);
 }
 
-function eventFactory() {
-  return {
-    uid: nanoid() + '@hltv-to-calendar',
-    start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes()],
-    duration: { hours: 2, minutes: 0 },
-    title: document.title.replace(' | HLTV.org', ''),
-    description: description.textContent.trim(),
-    url: location.href,
-    alarms: [{ action: 'display', description: 'Reminder', trigger: { hours: 0, minutes: 15, before: true } }],
-    productId: 'hltv-to-calendar',
-  };
-}
-
-function fileNameFactory(data) {
+function createFileName(data) {
   return (
     data.date.getFullYear() +
     '-' +
-    (data.date.getMonth() + 1) +
+    (data.date.getMonth() + 1).toString().padStart(2, '0') +
     '-' +
-    data.date.getDate() +
+    data.date.getDate().toString().padStart(2, '0') +
     '-' +
     data.team1.toLocaleLowerCase().trim().replace(/\s/g, '_') +
     '-vs-' +
