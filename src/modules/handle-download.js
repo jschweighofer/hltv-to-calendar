@@ -1,7 +1,6 @@
-import { alertThrowError } from './helper';
 import createIcsFile from './create-ics-file';
 
-export default async function handleDownload() {
+export default function () {
   // Get appointment details
   const timeAndEventInfos = document.querySelector('.timeAndEvent');
   if (!timeAndEventInfos) alertThrowError('Cannot get time and event information element.');
@@ -11,8 +10,6 @@ export default async function handleDownload() {
 
   const date = new Date(+time.getAttribute('data-unix'));
   if (!date) alertThrowError('Cannot extract time.');
-
-  console.log(date.toISOString());
 
   const description = document.querySelector('.maps .veto-box');
   if (!description) alertThrowError('Cannot get description element.');
@@ -28,8 +25,9 @@ export default async function handleDownload() {
   if (team2) {
     team2Name = team2.textContent;
   }
+
   const fileName = createFileName({ date, team1: team1Name, team2: team2Name });
-  const file = createIcsFile({ fileName, date, description })
+  const file = createIcsFile({ fileName, date, description });
 
   const url = URL.createObjectURL(file);
 
@@ -59,4 +57,9 @@ function createFileName(data) {
     data.team2.toLocaleLowerCase().trim().replace(/\s/g, '_') +
     '.ics'
   );
+}
+
+function alertThrowError(msg) {
+  alert(msg);
+  throw new Error(msg);
 }

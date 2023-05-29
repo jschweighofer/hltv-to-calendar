@@ -1,4 +1,4 @@
-export default function() {
+export default function () {
   const container = document.createElement('div');
   container.classList.add('htoc-container');
 
